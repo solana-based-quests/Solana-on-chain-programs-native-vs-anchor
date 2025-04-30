@@ -21,9 +21,9 @@ in this post, you will learn
 
 # Basic Hello World Program In Native Rust
 
-In this native Solana program, there is just one main entry point, where we call the program's instructions. this instruction data needs to be serialized and deserialized by Borsh. The entry point macro includes the program ID, a list of accounts used in the instruction, and the instruction data.
-For developing native on-chain programs, we use the solana_program crate. This is the base library for writing on-chain programs in Rust.
-In the native program, we need to explicitly pass accounts and instruction data to process an instruction.
+In this native Solana program, there is just one main entry point, where we call the program's instructions. This instruction data needs to be serialized and deserialized by Borsh. The entry point macro includes the program ID, a list of accounts used in the instruction, and the instruction data.
+We use the solana_program crate, the base library for writing on-chain programs in Rust, to develop native on-chain programs.
+In the native program, we need to pass accounts and instruction data to process an instruction explicitly.
 
 ```rust
 use solana_program::{
@@ -115,7 +115,7 @@ This program simply prints the "hello world" message and does not require accoun
 
 To write the counter program open https://beta.solpg.io/ and create a new project name it counter and choose native rust as a framework.
 
-Create a new file named [state.rs](http://state.rs) under src directory and add this code
+Create a new file named `state.rs` under the src directory and add this code
 
 ### Define state for counter Account
 
@@ -143,7 +143,7 @@ In the native Solana program, we need to manually
 - Deserialize data from incoming transactions.
 - Check the accounts provided with incoming instructions; for example, verify that certain accounts are of a particular type or are distinct from other accounts.
 
-Next, in lib.rs file add this code
+Next, in `lib.rs` file, add this code
 
 ```rust
 /// lib.rs
@@ -254,7 +254,7 @@ Next, Define an entrypoint and make it conditional on the `no-entrypoint` feat
 use solana_program::entrypoint;
 ```
 
-Next call entrypoint by providing argument process_instruction and make it conditional on the `no-entrypoint` feature.
+Next, call entrypoint by providing the argument process_instruction and make it conditional on the `no-entrypoint` feature.
 
 ```rust
 #[cfg(not(feature = "no-entrypoint"))]
@@ -331,7 +331,7 @@ pub fn process_increment_counter(
 
 This is how native Solana programs work. We need to handle common tasks such as serialization and deserialization of account data, instruction data matching, converting raw data bytes to specified structs, and much more.
 
-# Basic Counter program in Anchor rust
+# Basic Counter program in Anchor Rust
 
 The Anchor framework uses macros and traits to generate boilerplate Rust code for you.
 
@@ -344,7 +344,7 @@ Anchor provides
 
 The `Context` type exposes instruction metadata and accounts for instruction logic, so manual account iteration and deserialization are no longer necessary.
 
-In this counter program, which is the same as the native version, we do not need to serialize and deserialize account data manually, nor do we need to match instruction handler data. we need to just create separate Contexts for instruction handlers.
+In this counter program, which is the same as the native version, we do not need to serialize and deserialize account data manually, nor do we need to match instruction handler data. We need to just create separate Contexts for instruction handlers.
 
 ```rust 
 
@@ -428,7 +428,7 @@ This takes the `Context` type of `<InitializeCounter>` as an argument and return
 
 The `Context` type exposes instruction metadata and accounts for instruction logic. 
 
-Under the hood Context structure looks like this:-
+Under the hood, Context structure looks like this:-
 
 ```rust
 pub struct Context<'a, 'b, 'c, 'info, T> {
@@ -455,7 +455,7 @@ pub fn increment(ctx: Context<Increment>) -> Result<()> {
     }
 ```
 
-As discussed in `Context` structure we can access accounts using dot annotation like this:-
+As discussed in `Context` structure, we can access accounts using dot annotation like this:-
 
 ```rust
 ctx.accounts.counter.count
@@ -467,9 +467,9 @@ ctx.accounts.counter.count
 
 First, let's use the `#[account]` attribute to define a new `Counter` account type. The `Counter` struct defines one `count` field of type `u64`. This means that any new accounts initialized as a `Counter` type will have a matching data structure. The `#[account]` attribute also automatically sets the discriminator for a new account and sets the owner of the account as the `programId` from the `declare_id!` macro.
 
-in anchor, you can initialize an account using the `#[account]` attribute
+In anchor, you can initialize an account using the `#[account]` attribute
 
-here InitSpace Implements a [`Space`](https://docs.rs/anchor-lang/latest/anchor_lang/trait.Space.html) trait on the Counter struct and space is used to define the space of an account for initialization.
+Here, InitSpace implements a [`Space`](https://docs.rs/anchor-lang/latest/anchor_lang/trait.Space.html) trait on the Counter struct and space is used to define the space of an account for initialization.
 
 ```rust
 #[account]
@@ -527,7 +527,7 @@ Next, we have the `counter` account, and it has constraints like this:
 
 This is an `Account` type that will store data of type `Counter`
 
-Lastly, we have The `system_program` account and this is a type of System Program used for creating new accounts.
+Lastly, we have the `system_program` account, and this is a type of System Program used for creating new accounts.
 
 ### Increment count struct
 
@@ -545,7 +545,7 @@ It contains a mutable `counter` account for updating its count.
 
 # Conclusion
 
-In this post, we delve into the native version of a Solana program and the Anchor version, highlighting the differences in what Anchor does behind the scenes. In a native program, tasks like account data serialization, deserialization, and instruction data matching must be done manually. We also elaborate on how Anchor simplifies these processes using provided macros and traits.
+In this post, we delve into the native version of a Solana program and the Anchor version, highlighting the differences in what Anchor does behind the scenes. In a native program, tasks like account data serialization, deserialization, and instruction data matching must be done manually. We also elaborate on how Anchor simplifies these processes using the provided macros and traits.
 
 In future lessons, we will use Anchor for Solana development because it is more beginner-friendly for new developers.
 
